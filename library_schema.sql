@@ -41,14 +41,26 @@ INSERT INTO Books (title, isbn, publication_year, author_id, publisher_id) VALUE
     ('The Catcher in the Rye', '9780316769488', 1951, 3, 3);
 
 -- Example JOIN query to verify relationships
+-- SELECT 
+--     b.title,
+--     b.isbn,
+--     b.publication_year,
+--     a.name as author_name,
+--     a.email as author_email,
+--     p.name as publisher_name,
+--     p.address as publisher_address
+-- FROM Books b
+-- JOIN Authors a ON b.author_id = a.id
+-- JOIN Publishers p ON b.publisher_id = p.id; 
+
+-- Another JOIN query to verify relationships
 SELECT 
-    b.title,
-    b.isbn,
-    b.publication_year,
-    a.name as author_name,
-    a.email as author_email,
-    p.name as publisher_name,
-    p.address as publisher_address
-FROM Books b
+    p.name AS publisher_name,
+    COUNT(b.id) AS books_count,
+    STRING_AGG(DISTINCT a.name, ', ') AS authors
+FROM Publishers p
+JOIN Books b ON p.id = b.publisher_id
 JOIN Authors a ON b.author_id = a.id
-JOIN Publishers p ON b.publisher_id = p.id; 
+GROUP BY p.id
+ORDER BY books_count DESC;
+
