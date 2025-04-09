@@ -52,14 +52,3 @@ SELECT
 FROM books b
 JOIN authors a ON b.author_id = a.id
 JOIN publishers p ON b.publisher_id = p.id; 
-
--- Another JOIN query to verify relationships
-SELECT 
-    p.name AS publisher_name,
-    COUNT(b.id) AS books_count,
-    STRING_AGG(DISTINCT a.name, ', ') AS authors
-FROM publishers p
-JOIN books b ON p.id = b.publisher_id
-JOIN authors a ON b.author_id = a.id
-GROUP BY p.id
-ORDER BY books_count DESC;
